@@ -32,6 +32,16 @@ Thumbs.db
 *.tmp
 *.bak
 
-# Local environment/config files
+# Environment files
 .env
 .env.*
+
+# Project output folders
+Results/
+Solutions/
+output/
+outputs/
+
+# Local notebooks or scratch files
+*.ipynb_checkpoints/
+*.swp
