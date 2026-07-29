@@ -18,7 +18,7 @@ from script3_plot import process_and_map
 # EINSTELLUNGEN
 # ==============================================================================
 
-INPUT_FOLDER = r"test"
+INPUT_FOLDER = r"C:\Users\marco.hubacher\OneDrive - EAO AG\S56 MTSMa Retrofit _ PJ - General\01_Creation\400_Akustische Optimierung S57 Haube\03_Berechnungen\Python Scripts\Messdaten auswerten\Messergebnisse_v9_Iter3_Spritzguss"
 
 MIN_FREQ = 100
 MAX_FREQ = 2900

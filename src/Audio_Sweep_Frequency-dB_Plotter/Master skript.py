@@ -8,9 +8,9 @@ from script3_plot import generate_plot, process_and_map
 # ========================
 # SETTINGS
 # ========================
-INPUT_FOLDER = r"Messergebnisse_v9_Iteration3_und_SpritzgussHaube"
-AUDIO_FILE = r"Test_Ton_Haubengeometrien_v3.wav"
-OUTPUT_FOLDER = r"sol_v9_Iteration3"
+INPUT_FOLDER = r"C:\Users\marco.hubacher\OneDrive - EAO AG\S56 MTSMa Retrofit _ PJ - General\01_Creation\400_Akustische Optimierung S57 Haube\03_Berechnungen\Python Scripts\Messdaten auswerten\ORing_Messungen_Angepresst"
+AUDIO_FILE = r"C:\Users\marco.hubacher\OneDrive - EAO AG\S56 MTSMa Retrofit _ PJ - General\01_Creation\400_Akustische Optimierung S57 Haube\03_Berechnungen\Python Scripts\Messdaten auswerten\Test_Ton_Haubengeometrien_v3.wav"
+OUTPUT_FOLDER = r"C:\Users\marco.hubacher\OneDrive - EAO AG\S56 MTSMa Retrofit _ PJ - General\01_Creation\400_Akustische Optimierung S57 Haube\03_Berechnungen\Python Scripts\Messdaten auswerten\sol_v9_Iteration3"
 
 print(repr(INPUT_FOLDER))
 

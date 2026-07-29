@@ -53,3 +53,4 @@ Für die effiziente Nutzung können folgende Dokumente nützlich sein: https://e
 - Die virtuellen Umgebungen werden lokal im Projektordner unter `.venv/` gehalten.
 - Die Skripte erwarten Eingabedateien und Ausgabeverzeichnisse, die je nach Nutzung angepasst werden müssen.
 - Für neue Erweiterungen können weitere Skripte in den bestehenden Ordnern unter `src/` ergänzt werden.
+- Die jeweiligen Plots entsprechen NICHT einer Normen-Messung und sind nur relativ zu einer Referenz-Messung zu nutzen. Die absoluten Werte sind NICHT mit Werten von BBM Müller zu vergleichen!
