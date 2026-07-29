@@ -1,4 +1,4 @@
-# Audio Sweep Plotter
+# Messergebnisse auswerten (NTi XL2 Messgerät)
 
 Dieses Repository enthält verschiedene Python-Skripte zur Auswertung von XL2-Logfiles und Audiodaten für akustische Messungen.
 
