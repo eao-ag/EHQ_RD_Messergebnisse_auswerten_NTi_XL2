@@ -43,6 +43,10 @@ Die Skripte können je nach Bedarf aus ihren jeweiligen Ordnern gestartet werden
 ```powershell
 python "src/Audio_Sweep_Frequency-dB_Plotter/Master skript.py"
 ```
+Die Empfehlung ist jedoch das repo zu klonen und direkt in den Codes die Pfade auf die Messdaten Ordner anzupassen und diese lokal zu starten.
+Wenn in einem Unterordner mehrere Files liegen, navigiere zum "Master Skript" und passe dort den Pfad an.
+In den jeweiligen Unter-Scripts können feinheiten angepasst und Parameter verändert werden.
+Für die effiziente Nutzung können folgende Dokumente nützlich sein: https://eaogroup.sharepoint.com/:f:/r/sites/pj-s56-mtsma-retrofit/Shared%20Documents/General/01_Creation/400_Akustische%20Optimierung%20S57%20Haube/05_Dokumentation/Anleitung%20Akustikbox?csf=1&web=1&e=R1q8Qx
 
 ## Hinweise
 
