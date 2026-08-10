@@ -132,7 +132,7 @@ def analyze_pure_sweep(
             (fft_freqs <= peak_freq + BANDWIDTH_HZ)
         )
 
-        fundamental_energy = np.sqrt(
+        fundamental_energy = np.sqrt( # RIN260810: Eigentlich keine Energie, sondern die Wurzel davon, also ein "Amplitude-Mass", würde es deshalb fundamental_amplitude nennen
             np.sum(
                 fft_vals[
                     fundamental_mask
@@ -149,8 +149,9 @@ def analyze_pure_sweep(
 
         peak_amplitude = (
             fundamental_energy
-            / (window_size / 2)
+            / (window_size / 2) # RIN260810: Stimmt Faktor 1/(window_size/2)? Denke, es müsste 1/sqrt(window_size/2) sein, weil es eben nicht die Energie sondern die Amplitude der Fundamental ist
         )
+        # RIN260810: Algemeiner Hinweis: Die Ermittlung des Spitzenwerts ist bei FFT-Vektoren etwas tricky, siehe [Exact Signal Measurements using FFT Analysis (TU Kaiserslauten).pdf] im Design Guideline Sharepoint
 
         peak_db = 20 * np.log10(
             peak_amplitude + 1e-12
@@ -188,7 +189,7 @@ def analyze_pure_sweep(
 
         total_amplitude_a = (
             total_energy_a
-            / (window_size / 2)
+            / (window_size / 2) # RIN260810: Scheint mir inkorrekt; müsste es nicht geteilt durch window_size^2 sein (Parseval Theorem)?
         )
 
         total_db = 20 * np.log10(
@@ -230,16 +231,18 @@ def analyze_pure_sweep(
                 )
             )
 
-            harmonic_energy_sq += np.sum(
+            harmonic_energy_sq += np.sum( # RIN260810: Achtung: Hier summieren wir Energie zusammen --> immer noch Energie, würde es deshalb schlicht harmonic_energy nennen (Summe über FFT-Bins ist aber korrekt)
                 fft_vals[
                     harmonic_mask
                 ] ** 2
             )
 
-        harmonic_energy = np.sqrt(
+        harmonic_energy = np.sqrt( # RIN260810: Achtung, das ist keine Energie, sondern Amplitude, würde es deshalb harmonic_amplitude nennen (Summenbilung über Energien der Harmonischen ist aber richtig)
             harmonic_energy_sq
         )
 
+        # RIN260810: THD-Berechnung korrekt; du würdest diesen Wert nun gegen eine festgelegte Schwelle vergleichen, die Dir sagt, ob der Lautsprecher zu laut betrieben wurde oder nicht, ja?
+        # RIN260810: Was wir mit dem THD aber nicht sehen würden, wenn zuviel tieffrequenter Hintergrundlärm die Messung gestört hat. Das ist aber nur dann ein Thema, wenn man zu jedem Frequenzpunkt die gesamte Energie des FFT-Vektors zusammenzählt (was Du ja glaub ich nicht machtst)
         thd_percent = (
             harmonic_energy
             /
