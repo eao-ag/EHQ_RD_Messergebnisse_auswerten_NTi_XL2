@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # Einstellungen
 # ============================================================
 
-AUDIO_FOLDER = r"C:\Users\marco.hubacher\OneDrive - EAO AG\S56 MTSMa Retrofit _ PJ - General\01_Creation\400_Akustische Optimierung S57 Haube\03_Berechnungen\Python Scripts\Findetöne Messungen\ORing_v12_Wasser"
+AUDIO_FOLDER = r"C:\Users\marco.hubacher\OneDrive - EAO AG\S56 MTSMa Retrofit _ PJ - General\01_Creation\400_Akustische Optimierung S57 Haube\03_Berechnungen\Python Scripts\Findetöne Messungen\Findeton_Messungen_07_08_2026"
 
 EXTENSIONS = (".wav", ".mp3", ".flac", ".m4a", ".ogg", ".aac")
 

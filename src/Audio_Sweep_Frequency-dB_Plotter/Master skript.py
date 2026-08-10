@@ -8,9 +8,9 @@ from script3_plot import generate_plot, process_and_map
 # ========================
 # SETTINGS
 # ========================
-INPUT_FOLDER = r"C:\Users\marco.hubacher\OneDrive - EAO AG\S56 MTSMa Retrofit _ PJ - General\01_Creation\400_Akustische Optimierung S57 Haube\03_Berechnungen\Python Scripts\Messdaten auswerten\ORing_Messungen_Angepresst"
-AUDIO_FILE = r"C:\Users\marco.hubacher\OneDrive - EAO AG\S56 MTSMa Retrofit _ PJ - General\01_Creation\400_Akustische Optimierung S57 Haube\03_Berechnungen\Python Scripts\Messdaten auswerten\Test_Ton_Haubengeometrien_v3.wav"
-OUTPUT_FOLDER = r"C:\Users\marco.hubacher\OneDrive - EAO AG\S56 MTSMa Retrofit _ PJ - General\01_Creation\400_Akustische Optimierung S57 Haube\03_Berechnungen\Python Scripts\Messdaten auswerten\sol_v9_Iteration3"
+INPUT_FOLDER = r"C:\Users\marco.hubacher\Desktop\Messergebnisse_Hochpass_v5"
+AUDIO_FILE = r"C:\Users\marco.hubacher\Desktop\Test_Ton_Haubengeometrien_v3.wav"
+OUTPUT_FOLDER = r"C:\Users\marco.hubacher\Desktop\sol_v18_Hochpass_v5"
 
 print(repr(INPUT_FOLDER))
 
@@ -65,7 +65,7 @@ for file in files:
         output_name = os.path.splitext(file)[0] + ".png"
         output_path = os.path.join(OUTPUT_FOLDER, output_name)
 
-        generate_plot(log_df, fft_df, output_path)
+        #generate_plot(log_df, fft_df, output_path)
 
         print(f"✅ Plot gespeichert: {output_path}")
 
@@ -90,6 +90,35 @@ if len(all_results) > 0:
 
     for i, (x, y) in enumerate(all_results):
         plt.plot(x, y, label=labels[i])
+
+    # ========================
+    # Balkenmarker für Sollbereiche
+    # ========================
+    marker = [
+        (630, 65, 2, 2, "630 Hz: 65 ± 2 dB"),
+        (550, 70, 2, 2, "550 Hz: 70 ± 2 dB"),
+        (750, 70, 2, 2, None), 
+        (1760, 70, 0, 6, "1760/2200 Hz: 70 bis 76 dB"),
+        (2200, 70, 0, 6, None),
+        (1900, 70, 0, 6, "1900 Hz: 70 bis 76 dB"),
+    ]
+
+    for frequenz, sollwert, minus, plus, beschriftung in marker:
+        plt.errorbar(
+            frequenz,
+            sollwert,
+            yerr=[[minus], [plus]],
+            fmt="o",
+            markersize=7,
+            color="red",
+            ecolor="red",
+            elinewidth=5,
+            capsize=8,
+            capthick=2,
+            label=beschriftung,
+            zorder=10,
+        )
+
 
     plt.xlabel("Frequenz [Hz]")
     plt.ylabel("Schalldruckpegel [dB]")

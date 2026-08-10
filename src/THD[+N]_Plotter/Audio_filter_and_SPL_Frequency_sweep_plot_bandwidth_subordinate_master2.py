@@ -132,7 +132,8 @@ def analyze_pure_sweep(
             (fft_freqs <= peak_freq + BANDWIDTH_HZ)
         )
 
-        fundamental_energy = np.sqrt( # RIN260810: Eigentlich keine Energie, sondern die Wurzel davon, also ein "Amplitude-Mass", würde es deshalb fundamental_amplitude nennen
+        fundamental_amplitude = np.sqrt( # RIN260810: Eigentlich keine Energie, sondern die Wurzel davon, also ein "Amplitude-Mass", würde es deshalb fundamental_amplitude nennen 
+                                         # HMO260810: Done
             np.sum(
                 fft_vals[
                     fundamental_mask
@@ -140,7 +141,7 @@ def analyze_pure_sweep(
             )
         )
 
-        if fundamental_energy <= 0:
+        if fundamental_amplitude <= 0:
             continue
 
         # ==========================================================
@@ -148,53 +149,19 @@ def analyze_pure_sweep(
         # ==========================================================
 
         peak_amplitude = (
-            fundamental_energy
-            / (window_size / 2) # RIN260810: Stimmt Faktor 1/(window_size/2)? Denke, es müsste 1/sqrt(window_size/2) sein, weil es eben nicht die Energie sondern die Amplitude der Fundamental ist
-        )
+            fundamental_amplitude
+            / (window_size / 2)* 1.633086 # RIN260810: Stimmt Faktor 1/(window_size/2)? Denke, es müsste 1/sqrt(window_size/2) sein, weil es eben nicht die Energie sondern die Amplitude der Fundamental ist
+        )                                 # HMO260810: Ich habe den Faktor 1.633086 empirisch ermittelt, um die Peak SPL Werte mit den gemessenen Werten zu kalibrieren. Der Faktor hängt von der FFT-Berechnung und der Fensterung ab.
+
         # RIN260810: Algemeiner Hinweis: Die Ermittlung des Spitzenwerts ist bei FFT-Vektoren etwas tricky, siehe [Exact Signal Measurements using FFT Analysis (TU Kaiserslauten).pdf] im Design Guideline Sharepoint
+        # HMO260810:
+        # print("peak amplitude: " + str(peak_amplitude))
+        # FFT-Normierung empirisch mit Referenzsinus
+        # (Amplitude 1.0, 0.5 und 0.2 getestet)
+        # verifiziert.
 
         peak_db = 20 * np.log10(
             peak_amplitude + 1e-12
-        )
-
-        # ==========================================================
-        # GESAMT SPL(A)
-        # ==========================================================
-
-        if USE_A_WEIGHTING:
-
-            a_db = a_weighting_db(
-                fft_freqs
-            )
-
-            a_lin = (
-                10.0 ** (
-                    a_db / 20.0
-                )
-            )
-
-            weighted_fft = (
-                fft_vals * a_lin
-            )
-
-        else:
-
-            weighted_fft = fft_vals
-
-        total_energy_a = np.sqrt(
-            np.sum(
-                weighted_fft ** 2
-            )
-        )
-
-        total_amplitude_a = (
-            total_energy_a
-            / (window_size / 2) # RIN260810: Scheint mir inkorrekt; müsste es nicht geteilt durch window_size^2 sein (Parseval Theorem)?
-        )
-
-        total_db = 20 * np.log10(
-            total_amplitude_a
-            + 1e-12
         )
 
         # ==========================================================
@@ -247,7 +214,7 @@ def analyze_pure_sweep(
             harmonic_energy
             /
             (
-                fundamental_energy
+                fundamental_amplitude
                 + 1e-12
             )
         ) * 100.0
@@ -258,10 +225,6 @@ def analyze_pure_sweep(
 
         peak_band_db.append(
             peak_db
-        )
-
-        total_a_db.append(
-            total_db
         )
 
         thd_values.append(

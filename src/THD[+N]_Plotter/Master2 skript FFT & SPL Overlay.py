@@ -18,7 +18,7 @@ from script3_plot import process_and_map
 # EINSTELLUNGEN
 # ==============================================================================
 
-INPUT_FOLDER = r"C:\Users\marco.hubacher\OneDrive - EAO AG\S56 MTSMa Retrofit _ PJ - General\01_Creation\400_Akustische Optimierung S57 Haube\03_Berechnungen\Python Scripts\Messdaten auswerten\Messergebnisse_v9_Iter3_Spritzguss"
+INPUT_FOLDER = r"C:\Users\marco.hubacher\Desktop\sus"
 
 MIN_FREQ = 100
 MAX_FREQ = 2900
@@ -324,144 +324,7 @@ for measurement_id in measurement_ids:
             xl2_spl = np.array([])
 
         # ==========================================================
-        # Audio SPL auf XL2 kalibrieren
-        # ==========================================================
-        """
-        common_freqs = np.linspace(
-            max(
-                np.min(fft_freqs),
-                np.min(xl2_freqs),
-                MIN_FREQ
-            ),
-            min(
-                np.max(fft_freqs),
-                np.max(xl2_freqs),
-                MAX_FREQ
-            ),
-            2000
-        )
-
-        audio_interp = np.interp(
-            common_freqs,
-            fft_freqs,
-            fft_peak_spl
-        )
-
-        xl2_interp = np.interp(
-            common_freqs,
-            xl2_freqs,
-            xl2_spl
-        )
-
-        delta = (
-            xl2_interp -
-            audio_interp
-        )
-
-        offset_db = np.min(
-            delta
-        )
-
-        fft_peak_spl = (
-            fft_peak_spl +
-            offset_db
-        )
-
-        idx_min = np.argmin(
-            delta
-        )
-
-        kal_freq = common_freqs[
-            idx_min
-        ]
-
-        print("")
-        print(
-            f"Kalibrierung bei "
-            f"{kal_freq:.1f} Hz"
-        )
-
-        print(
-            f"Offset = "
-            f"{offset_db:.2f} dB"
-        )
-
-        thdn_value = (
-            fft_thdn_percent[
-                np.argmin(
-                    np.abs(
-                        fft_freqs -
-                        kal_freq
-                    )
-                )
-            ]
-        )
-
-        print(
-            f"THD+N = "
-            f"{thdn_value:.3f}%"
-        )
-        """
-
-        # ==========================================================
-        # SPL Plot
-        # ==========================================================
-
-        plt.figure(
-            figsize=(12, 7)
-        )
-
-        plt.plot(
-            fft_freqs,
-            fft_peak_spl,
-            linewidth=2,
-            label="Audio SPL"
-        )
-
-        plt.plot(
-            xl2_freqs,
-            xl2_spl,
-            linewidth=2,
-            label="XL2 SPL"
-        )
-
-        plt.axvline(
-            color="black",
-            linestyle="--",
-            alpha=0.5,
-        )
-
-        plt.title(
-            measurement_id
-        )
-
-        plt.xlabel(
-            "Frequenz [Hz]"
-        )
-
-        plt.ylabel(
-            "Schalldruckpegel [dB]"
-        )
-
-        plt.xlim(
-            MIN_FREQ,
-            MAX_FREQ
-        )
-
-        plt.grid(
-            True,
-            linestyle="--",
-            alpha=0.5
-        )
-
-        plt.legend()
-
-        plt.tight_layout()
-
-        plt.show()
-
-        # ==========================================================
-        # THD+N Plot
+        # THD Plot
         # ==========================================================
 
         plt.figure(
@@ -476,7 +339,7 @@ for measurement_id in measurement_ids:
         )
 
         plt.title(
-            f"{measurement_id} - THD+N"
+            f"{measurement_id} - THD"
         )
 
         plt.xlabel(
@@ -484,7 +347,7 @@ for measurement_id in measurement_ids:
         )
 
         plt.ylabel(
-            "THD+N [%]"
+            "THD [%]"
         )
 
         plt.xlim(
@@ -527,71 +390,7 @@ for measurement_id in measurement_ids:
         print(e)
 
 # ==============================================================================
-# SPL Overlay
-# ==============================================================================
-
-if len(overlay_data) > 0:
-
-    plt.figure(
-        figsize=(14, 8)
-    )
-
-    for (
-        measurement_id,
-        fft_freqs,
-        fft_peak_spl,
-        fft_thdn_percent,
-        xl2_freqs,
-        xl2_spl
-    ) in overlay_data:
-
-        plt.plot(
-            fft_freqs,
-            fft_peak_spl,
-            linewidth=2,
-            label=f"{measurement_id} Audio"
-        )
-
-        plt.plot(
-            xl2_freqs,
-            xl2_spl,
-            linestyle="--",
-            linewidth=2,
-            label=f"{measurement_id} XL2"
-        )
-
-    plt.title(
-        "Alle Messungen"
-    )
-
-    plt.xlabel(
-        "Frequenz [Hz]"
-    )
-
-    plt.ylabel(
-        "Schalldruckpegel [dB]"
-    )
-
-    plt.xlim(
-        MIN_FREQ,
-        MAX_FREQ
-    )
-
-    plt.grid(
-        True,
-        linestyle="--",
-        alpha=0.5
-    )
-
-    plt.legend(
-        fontsize=8
-    )
-
-    plt.tight_layout()
-    plt.show()
-
-# ==============================================================================
-# THD+N Overlay
+# THD Overlay
 # ==============================================================================
 
     plt.figure(
@@ -615,7 +414,7 @@ if len(overlay_data) > 0:
         )
 
     plt.title(
-        "THD+N aller Messungen"
+        "THD aller Messungen"
     )
 
     plt.xlabel(
@@ -623,7 +422,7 @@ if len(overlay_data) > 0:
     )
 
     plt.ylabel(
-        "THD+N [%]"
+        "THD [%]"
     )
 
     plt.xlim(
