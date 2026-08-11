@@ -198,20 +198,18 @@ def analyze_pure_sweep(
                 )
             )
 
-            harmonic_energy_sq += np.sum( # RIN260810: Achtung: Hier summieren wir Energie zusammen --> immer noch Energie, würde es deshalb schlicht harmonic_energy nennen (Summe über FFT-Bins ist aber korrekt)
-                fft_vals[
-                    harmonic_mask
-                ] ** 2
+            harmonic_energy_sq += np.sum( 
+                fft_vals[harmonic_mask] ** 2
             )
 
-        harmonic_energy = np.sqrt( # RIN260810: Achtung, das ist keine Energie, sondern Amplitude, würde es deshalb harmonic_amplitude nennen (Summenbilung über Energien der Harmonischen ist aber richtig)
+        harmonic_amplitude = np.sqrt( 
             harmonic_energy_sq
         )
 
         # RIN260810: THD-Berechnung korrekt; du würdest diesen Wert nun gegen eine festgelegte Schwelle vergleichen, die Dir sagt, ob der Lautsprecher zu laut betrieben wurde oder nicht, ja?
         # RIN260810: Was wir mit dem THD aber nicht sehen würden, wenn zuviel tieffrequenter Hintergrundlärm die Messung gestört hat. Das ist aber nur dann ein Thema, wenn man zu jedem Frequenzpunkt die gesamte Energie des FFT-Vektors zusammenzählt (was Du ja glaub ich nicht machtst)
         thd_percent = (
-            harmonic_energy
+            harmonic_amplitude
             /
             (
                 fundamental_amplitude

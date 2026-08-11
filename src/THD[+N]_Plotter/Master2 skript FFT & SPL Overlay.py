@@ -215,6 +215,8 @@ print("=" * 80)
 
 overlay_data = []
 
+THD_WARNING_LIMIT = 10.0
+
 for measurement_id in measurement_ids:
 
     print("")
@@ -335,7 +337,16 @@ for measurement_id in measurement_ids:
             fft_freqs,
             fft_thdn_percent,
             color="red",
-            linewidth=2
+            linewidth=2,
+            label="THD"
+        )
+
+        plt.axhline(
+            y=THD_WARNING_LIMIT,
+            color="orange",
+            linestyle="--",
+            linewidth=2,
+            label=f"Warnschwelle ({THD_WARNING_LIMIT:.0f} %)"
         )
 
         plt.title(
@@ -366,6 +377,8 @@ for measurement_id in measurement_ids:
             alpha=0.5
         )
 
+        plt.legend()
+
         plt.tight_layout()
         plt.show()
 
@@ -393,60 +406,68 @@ for measurement_id in measurement_ids:
 # THD Overlay
 # ==============================================================================
 
-    plt.figure(
-        figsize=(14, 8)
-    )
+plt.figure(
+    figsize=(14, 8)
+)
 
-    for (
-        measurement_id,
+for (
+    measurement_id,
+    fft_freqs,
+    fft_peak_spl,
+    fft_thdn_percent,
+    xl2_freqs,
+    xl2_spl
+) in overlay_data:
+
+    plt.plot(
         fft_freqs,
-        fft_peak_spl,
         fft_thdn_percent,
-        xl2_freqs,
-        xl2_spl
-    ) in overlay_data:
-
-        plt.plot(
-            fft_freqs,
-            fft_thdn_percent,
-            linewidth=2,
-            label=measurement_id
-        )
-
-    plt.title(
-        "THD aller Messungen"
+        linewidth=2,
+        label=measurement_id
     )
 
-    plt.xlabel(
-        "Frequenz [Hz]"
-    )
+plt.axhline(
+    y=THD_WARNING_LIMIT,
+    color="orange",
+    linestyle="--",
+    linewidth=2,
+    label=f"Warnschwelle ({THD_WARNING_LIMIT:.0f} %)"
+)
 
-    plt.ylabel(
-        "THD [%]"
-    )
+plt.title(
+    "THD aller Messungen"
+)
 
-    plt.xlim(
-        MIN_FREQ,
-        MAX_FREQ
-    )
+plt.xlabel(
+    "Frequenz [Hz]"
+)
 
-    plt.yscale(
-        "log"
-    )
+plt.ylabel(
+    "THD [%]"
+)
 
-    plt.grid(
-        True,
-        which="both",
-        linestyle="--",
-        alpha=0.5
-    )
+plt.xlim(
+    MIN_FREQ,
+    MAX_FREQ
+)
 
-    plt.legend(
-        fontsize=8
-    )
+plt.yscale(
+    "log"
+)
 
-    plt.tight_layout()
-    plt.show()
+plt.grid(
+    True,
+    which="both",
+    linestyle="--",
+    alpha=0.5
+)
+
+plt.legend(
+    fontsize=8
+)
+
+plt.tight_layout()
+plt.show()
 
 print("")
 print("🎉 Alle Messungen verarbeitet")
